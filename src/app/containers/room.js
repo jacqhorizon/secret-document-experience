@@ -5,8 +5,9 @@ export default function Room(props) {
   const handleView = props.handleView
   const visible = props.visible
   return (
-    <div className={styles.room} style={{display: visible}}>
-        <div className={styles.room_computer} onClick={() => handleView(1)}>
+    <div className={styles.bg_grid} style={{display: visible}}>
+        <div className={styles.room_computer} 
+        onClick={() => handleView(1)}>
 
         </div>
         <div className={styles.room_desk} onClick={() => handleView(2)}>

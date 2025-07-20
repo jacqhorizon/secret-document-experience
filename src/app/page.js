@@ -9,8 +9,9 @@ import Desk from './containers/desk'
 export default function Home() {
   const [currView, setCurrView] = useState(0)
 
+
   const handleView = (view) => {
-    console.log('navigate to '+ view)
+    console.log('navigate to ' + view)
     setCurrView(view)
   }
 
@@ -23,33 +24,9 @@ export default function Home() {
   }
   return (
     <div className={styles.page}>
-      <Image
-        src='/room_bg.png'
-        alt='Preload Room'
-        width={1918}
-        height={899}
-        style={{ display: 'none' }}
-        priority={true}
-      />
-      <Image
-        src='/computer_bg.png'
-        alt='Preload Computer'
-        width={1918}
-        height={899}
-        style={{ display: 'none' }}
-        priority={true}
-      />
-      <Image
-        src='/desk_bg.png'
-        alt='Preload Desk'
-        width={1918}
-        height={899}
-        style={{ display: 'none' }}
-        priority={true}
-      />
       <Room handleView={handleView} visible={visible(0)} />
       <Computer handleView={handleView} visible={visible(1)} />
-            <Desk handleView={handleView} visible={visible(2)} />
+      <Desk handleView={handleView} visible={visible(2)} />
     </div>
   )
 }

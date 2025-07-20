@@ -5,7 +5,7 @@ export default function Desk(props) {
   const handleView = props.handleView
   const visible = props.visible
   return (
-    <div className={styles.computer} style={{display: visible}}>
+    <div className={styles.bg_grid} style={{display: visible}}>
       <div onClick={() => handleView(0)}> back</div>
       <Image
         className={styles.bg}

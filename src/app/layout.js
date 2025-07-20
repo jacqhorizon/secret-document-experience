@@ -1,6 +1,5 @@
 import { Geist, Geist_Mono, Pixelify_Sans } from "next/font/google";
 import "./globals.css";
-import styles from '../global.css'
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,7 +25,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${pixelifySans.variable}` }>
-        <div className={styles.page}>
+        <div>
           {children}
         </div>
       </body>
