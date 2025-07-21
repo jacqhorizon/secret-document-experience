@@ -8,7 +8,12 @@ export default function Computer(props) {
   const visible = props.visible
   const [accessGranted, setAccessGranted] = useState(false)
   const [showError, setShowError] = useState(false)
+  const [password, setPassword] = useState('')
 
+  const handlePassword = (e) => {
+    setPassword(e.target.value)
+    setShowError(false)
+  }
   const handleSubmit = (formData) => {
     const password = formData.get('Password')
     if (password == 'correct') {
@@ -43,14 +48,14 @@ export default function Computer(props) {
 
   return (
     <div className={styles.bg_grid} style={{ display: visible }}>
-      <div onClick={() => handleBack()}> back</div>
+      <div className={styles.back_button} onClick={() => handleBack()}>BACK</div>
       <div className={styles.computer_screen}>
         <div style={{ display: accessGranted ? 'none' : 'block' }}>
           <Form action={handleSubmit}>
-            <input name='Password' type='text' />
-            <button type='submit'>Submit</button>
+            <input className={styles.password_input} name='Password' type='text' value={password} onChange={(e) => handlePassword(e)} />
+            <button className={styles.password_submit} type='submit'>Submit</button>
           </Form>
-          <div>{showError ? 'Wrong password.' : ''}</div>
+          <div>{showError ? 'Wrong password.' : ' '}.</div>
         </div>
         <div
           className={styles.file_viewer}
@@ -59,7 +64,8 @@ export default function Computer(props) {
           <div className={`${styles.file_column} ${styles.left}`}>
             {FILES.map((file, i) => {
               return (
-                <ul key={file.names} onClick={() => handleFileSelect(i)}>
+                <ul key={file.name} onClick={() => handleFileSelect(i)}
+                style={currFile == i ? {backgroundColor: '#467027'} : {}}>
                   {file.name}
                 </ul>
               )

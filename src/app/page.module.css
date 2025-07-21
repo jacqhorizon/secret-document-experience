@@ -6,6 +6,8 @@
   --button-primary-hover: #383838;
   --button-secondary-hover: #f2f2f2;
 
+  --light-green: #c9e59e;
+  --dark-green: #628E40;
   display: flex;
   /* grid-template-rows: 20px 1fr 20px; */
   align-items: center;
@@ -68,7 +70,26 @@
   height: 100%;
   background-color: red;
 }
+/* Other */
+.bg {
+  grid-column: 1 / span var(--grid-cols);
+  grid-row: 1 / span var(--grid-rows);
+  width: 100%;
+  height: auto;
+}
+.back_button {
+  grid-column: 1 /span 1;
+  grid-row: 1/span 1;
+  z-index: 100;
+  color: white;
+  padding: 20px 20px;
+  position: absolute;
+}
 
+.back_button:hover {
+  cursor: pointer;
+}
+/* Room */
 .room_computer {
   /* background-color: green; */
   grid-column: 5/6;
@@ -88,20 +109,25 @@
   cursor: pointer;
 }
 
+/* Computer */
+
 .computer_screen {
-  /* background-color: green; */
+  background-color: var(--dark-green);
   grid-column: 6 / 11;
   grid-row: 3 / 9;
   z-index: 100;
   display: flex;
   justify-content: center;
   align-items: center;
+  color: var(--light-green);
 }
 .file_viewer {
-  grid-template-columns: 30% 60%;
+  grid-template-columns: 30% 70%;
+  width: 100%;
+  padding: 10px 10px;
 }
 .file_column {
-  border: 1px solid black;
+  border: 1px solid var(--light-green);
   padding: 10px 10px;
   ul:hover {
     cursor: pointer;
@@ -112,15 +138,24 @@
 }
 .right {
   grid-column: 2/3;
-
 }
 
-.bg {
-  grid-column: 1 / span var(--grid-cols);
-  grid-row: 1 / span var(--grid-rows);
-  width: 100%;
-  height: auto;
+/* Desk */
+.desk_surface {
+  grid-column: 3 / 15;
+  grid-row: 2 / 11;
+  /* background-color: white; */
+  z-index: 100;
 }
+.document {
+  position: absolute;
+  width: 10vw;
+  height: 10vw;
+}
+.document:hover {
+  cursor: pointer;
+}
+
 .ctas {
   display: flex;
   gap: 16px;
