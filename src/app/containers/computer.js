@@ -55,7 +55,7 @@ export default function Computer(props) {
     setCurrFile(index)
   }
   const FILES = [
-    { name: 'file_1.txt', content: <File1 /> },
+    { name: '#Eidolon Acquisition...', content: <File1 /> },
     { name: 'file_2.txt', content: <File2 /> }
   ]
 
@@ -88,24 +88,34 @@ export default function Computer(props) {
         </div>
         <div
           className={styles.file_viewer}
-          style={{ display: accessGranted ? 'grid' : 'none' }}
+          style={{ display: accessGranted ? 'block' : 'none' }}
         >
           <div className={styles.database_head}>DATABASE</div>
-          {/* <div className={`${styles.file_column} ${styles.left}`}> */}
-          {FILES.map((file, i) => {
-            return (
-              <ul
-                key={file.name}
-                onClick={() => handleFileSelect(i)}
-                className={currFile == i ? styles.selected_file : ''}
-              >
-                {file.name}
-              </ul>
-            )
-          })}
-          {/* </div> */}
-          <div className={`${styles.file_column} ${styles.right}`}>
-            {FILES[currFile].content}
+          <div className={styles.file_viewer_view}>
+            <div className={`${styles.file_column} ${styles.left}`}>
+              <div className={styles.file_list}>
+                <div className={styles.file_list_title}>FILE LIST</div>
+                {FILES.map((file, i) => {
+                  return (
+                    <ul
+                      key={file.name}
+                      onClick={() => handleFileSelect(i)}
+                      className={currFile == i ? styles.selected_file : ''}
+                    >
+                      {file.name}
+                    </ul>
+                  )
+                })}
+              </div>
+              <div className={styles.left_text}>
+                <p>CLEARANCE CODE...Red Zero</p>
+                <p>DESIGNATION...TOP SECRET</p>
+                <p>DESTRUCTION STATUS...Pending</p>
+              </div>
+            </div>
+            <div className={`${styles.file_column} ${styles.right}`}>
+              {FILES[currFile].content}
+            </div>
           </div>
         </div>
       </div>
