@@ -14,8 +14,12 @@ export default function Computer(props) {
     setPassword(e.target.value)
     setShowError(false)
   }
-  const handleSubmit = (formData) => {
-    const password = formData.get('Password')
+  const handleSubmit = (e) => {
+    console.log(e)
+    e.preventDefault()
+    e.stopPropagation()
+    // const password = formData.get('Password')
+    const password = e.target[0].value
     if (password == 'correct') {
       setAccessGranted(true)
     } else {
@@ -31,7 +35,16 @@ export default function Computer(props) {
   const [currFile, setCurrFile] = useState(0)
 
   const File1 = () => {
-    return <>This is file one</>
+    return (
+      <Image
+        className={styles.file_content}
+        src='/Table/SeveredWanted.png'
+        alt='Computer with computer and desk'
+        width={320}
+        height={400}
+        priority={true}
+      />
+    )
   }
 
   const File2 = () => {
@@ -48,40 +61,60 @@ export default function Computer(props) {
 
   return (
     <div className={styles.bg_grid} style={{ display: visible }}>
-      <div className={styles.back_button} onClick={() => handleBack()}>BACK</div>
+      <div className={styles.back_button} onClick={() => handleBack()}>
+        BACK
+      </div>
       <div className={styles.computer_screen}>
         <div style={{ display: accessGranted ? 'none' : 'block' }}>
-          <Form action={handleSubmit}>
-            <input className={styles.password_input} name='Password' type='text' value={password} onChange={(e) => handlePassword(e)} />
-            <button className={styles.password_submit} type='submit'>Submit</button>
+          <Form action='' onSubmit={(e) => handleSubmit(e)}>
+            <input
+              className={`${styles.password} ${styles.password_input}`}
+              name='Password'
+              type='text'
+              spellCheck='false'
+              value={password}
+              onChange={(e) => handlePassword(e)}
+            />
+            <button
+              className={`${styles.password} ${styles.password_submit}`}
+              type='submit'
+            >
+              &gt;&gt;
+            </button>
           </Form>
-          <div>{showError ? 'Wrong password.' : ' '}.</div>
+          <div className={styles.error_message}>
+            {showError ? 'Wrong password.' : ' '}
+          </div>
         </div>
         <div
           className={styles.file_viewer}
           style={{ display: accessGranted ? 'grid' : 'none' }}
         >
-          <div className={`${styles.file_column} ${styles.left}`}>
-            {FILES.map((file, i) => {
-              return (
-                <ul key={file.name} onClick={() => handleFileSelect(i)}
-                style={currFile == i ? {backgroundColor: '#467027'} : {}}>
-                  {file.name}
-                </ul>
-              )
-            })}
+          <div className={styles.database_head}>DATABASE</div>
+          {/* <div className={`${styles.file_column} ${styles.left}`}> */}
+          {FILES.map((file, i) => {
+            return (
+              <ul
+                key={file.name}
+                onClick={() => handleFileSelect(i)}
+                className={currFile == i ? styles.selected_file : ''}
+              >
+                {file.name}
+              </ul>
+            )
+          })}
+          {/* </div> */}
+          <div className={`${styles.file_column} ${styles.right}`}>
+            {FILES[currFile].content}
           </div>
-          <div
-          className={`${styles.file_column} ${styles.right}`}
-          >{FILES[currFile].content}</div>
         </div>
       </div>
       <Image
         className={styles.bg}
-        src='/computer_bg.png'
+        src='/ComputerScreen.png'
         alt='Computer with computer and desk'
-        width={1918}
-        height={899}
+        width={7396}
+        height={4160}
         priority={true}
       />
     </div>

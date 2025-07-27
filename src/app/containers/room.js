@@ -15,10 +15,10 @@ export default function Room(props) {
         </div>
       <Image
       className={styles.bg}
-        src='/room_bg.png'
+        src='/GeneralScreen.png'
         alt='Room with computer and desk'
-        width={1918}
-        height={899}
+        width={7396}
+        height={4160}
         priority={true}
       />
     </div>

@@ -41,7 +41,7 @@ export default function Desk(props) {
       </div>
       <Image
         className={styles.bg}
-        src='/desk_bg.png'
+        src='/LightboxScreen.png'
         alt='Desk view'
         width={1918}
         height={899}

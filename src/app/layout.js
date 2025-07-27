@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono, Pixelify_Sans } from "next/font/google";
+import { Geist, Geist_Mono, Pixelify_Sans, Roboto } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -16,6 +16,11 @@ const pixelifySans = Pixelify_Sans({
   subsets: ["latin"]
 })
 
+const roboto = Roboto({
+  variable: "--font-roboto",
+  subsets: ["latin"]
+})
+
 export const metadata = {
   title: "Secret Document Experience",
   description: "Secret Document Experience",
@@ -24,7 +29,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${pixelifySans.variable}` }>
+      <body className={`${roboto.variable}` }>
         <div>
           {children}
         </div>

@@ -6,8 +6,9 @@
   --button-primary-hover: #383838;
   --button-secondary-hover: #f2f2f2;
 
-  --light-green: #c9e59e;
+  --light-green: #D4E4CA;
   --dark-green: #628E40;
+  --darkest-green: #050907;
   display: flex;
   /* grid-template-rows: 20px 1fr 20px; */
   align-items: center;
@@ -17,7 +18,8 @@
   /* padding: 80px; */
   /* gap: 64px; */
   background-color: black;
-  font-family: var(--font-pixelify-sans);
+  font-family: var(--font-roboto);
+  font-size: 1rem;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -39,7 +41,7 @@
 }
 
 .main ol {
-  font-family: var(--font-pixelify-sans);
+  font-family: var(--font-roboto);
   padding-left: 0;
   margin: 0;
   font-size: 14px;
@@ -62,8 +64,8 @@
 
 .bg_grid {
   display: grid;
-  --grid-cols: 16;
-  --grid-rows: 12;
+  --grid-cols: 32;
+  --grid-rows: 18;
   grid-template-columns: repeat(var(--grid-cols), minmax(10px, 1fr));
   grid-template-rows: repeat(var(--grid-rows), minmax(10px, 1fr));
   width: 100%;
@@ -92,15 +94,15 @@
 /* Room */
 .room_computer {
   /* background-color: green; */
-  grid-column: 5/6;
-  grid-row: 4/5;
+  grid-column: 8/11;
+  grid-row: 5/9;
   z-index: 100;
 }
 
 .room_desk {
   /* background-color: brown; */
-  grid-column: 6/12;
-  grid-row: 5/10;
+  grid-column: 10/30;
+  grid-row: 10/15;
   z-index: 100;
 }
 
@@ -112,19 +114,58 @@
 /* Computer */
 
 .computer_screen {
-  background-color: var(--dark-green);
-  grid-column: 6 / 11;
-  grid-row: 3 / 9;
+  /* background-color: var(--dark-green); */
+  grid-column: 7 / 28;
+  grid-row: 2 / 17;
   z-index: 100;
   display: flex;
   justify-content: center;
   align-items: center;
   color: var(--light-green);
+  min-height: 0;
+}
+
+.password {
+  border-color: var(--light-green);
+  background-color: rgba(0,0,0,0);
+  font-family: inherit;
+  color: var(--light-green);
+  font-size: inherit;
+  padding: 5px 5px;
+  border-style: solid;
+}
+.password_input {
+  /* border-color: var(--light-green);
+  background-color: rgba(0,0,0,0);
+  font-family: inherit;
+  color: var(--light) */
+
+}
+.password_input:focus-visible {
+  outline: none;
+}
+
+.password_submit {
+  cursor: pointer;
+
+}
+.error_message {
+  height: 1lh;
+  text-align: center;
 }
 .file_viewer {
   grid-template-columns: 30% 70%;
+  grid-template-rows: repeat(12, auto);
   width: 100%;
-  padding: 10px 10px;
+  height: 100%;
+  /* background-color: yellow; */
+  padding: 10px 10px 10px 25px;
+}
+.database_head {
+  background-color: var(--light-green);
+  color: var(--darkest-green);
+  grid-column: 1 / 3;
+  /* margin-bottom: 10px; */
 }
 .file_column {
   border: 1px solid var(--light-green);
@@ -138,8 +179,18 @@
 }
 .right {
   grid-column: 2/3;
+  grid-row: 2 /13;
 }
 
+.selected_file {
+  background-color: var(--light-green);
+  color: var(--darkest-green);
+}
+
+.file_content {
+  height: 100%;
+  width: auto;
+}
 /* Desk */
 .desk_surface {
   grid-column: 3 / 15;
