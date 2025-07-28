@@ -230,7 +230,7 @@
 }
 /* Desk */
 .desk_surface {
-  grid-column: 3 / 32;
+  grid-column: 10 / 28;
   grid-row: 3 / 16;
   /* background-color: white; */
   z-index: 100;

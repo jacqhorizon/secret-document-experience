@@ -1,38 +1,96 @@
 import Image from 'next/image'
 import styles from '../page.module.css'
 import Draggable from 'react-draggable' // Both at the same time
-import React from 'react'
+import React, { useEffect } from 'react'
 
 export default function Desk(props) {
   const handleView = props.handleView
   const visible = props.visible
 
   const TABLEDOCS = [
-    { path: '/Table/IncidentReport3.png', width: 1080, height: 1360 },
-    { path: '/Table/MegaRailAttack.png', width: 1080, height: 1360 },
-    { path: '/Table/MicroFilmDoc_01.png', width: 5100, height: 4096 },
-    { path: '/Table/MicroFilmDoc_02.png', width: 5100, height: 4096 },
-    { path: '/Table/MinistryReport.png', width: 1080, height: 1360 },
-    { path: '/Table/ResearcherProfile.png', width: 1080, height: 1360 },
-    { path: '/Table/SeveredWanted.png', width: 1080, height: 1360 },
-    { path: '/Table/USDNewspaper.png', width: 1080, height: 1360 }
+    {
+      path: '/Table/IncidentReport3.png',
+      width: 1080,
+      height: 1360,
+      posX: -20,
+      posY: 5,
+      widthMult: 1
+    },
+    {
+      path: '/Table/MegaRailAttack.png',
+      width: 1080,
+      height: 1360,
+      posX: 5,
+      posY: -30,
+      widthMult: 1
+    },
+    {
+      path: '/Table/MicroFilmDoc_01.png',
+      width: 5100,
+      height: 4096,
+      posX: -10,
+      posY: -12,
+      widthMult: 1
+    },
+    {
+      path: '/Table/MicroFilmDoc_02.png',
+      width: 5100,
+      height: 4096,
+      posX: 15,
+      posY: -10,
+      widthMult: 1
+    },
+    {
+      path: '/Table/MinistryReport.png',
+      width: 1080,
+      height: 1360,
+      posX: 3,
+      posY: -8,
+      widthMult: 1
+    },
+    {
+      path: '/Table/ResearcherProfile.png',
+      width: 1080,
+      height: 1360,
+      posX: 5,
+      posY: 25,
+      widthMult: 0.9
+    },
+    {
+      path: '/Table/SeveredWanted.png',
+      width: 1080,
+      height: 1360,
+      posX: 20,
+      posY: 20,
+      widthMult: 1
+    },
+    {
+      path: '/Table/USDNewspaper.png',
+      width: 1080,
+      height: 1360,
+      posX: 1,
+      posY: 1,
+      widthMult: 1.5
+    }
   ]
 
-  function getRandomIntInclusive(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+const handleWheel = (delta) => {
+  if (delta > 0) {
+
+  }
 }
 
   function TableDoc({ doc }) {
     const nodeRef = React.useRef(null)
-    let posX = 400 + getRandomIntInclusive(-150,180)
-    let posY = 100 + getRandomIntInclusive(-70,80)
+    console.log(doc.posX)
+    let style = {
+      width: (12 * doc.widthMult).toString() + 'vw',
+      top: `calc(40% + ${doc.posY}%)`,
+      left: `calc(40% + ${doc.posX}%)`
+    }
     return (
       <Draggable
-        defaultPosition={{ x: posX, y: posY }}
         bounds='parent'
-        // offsetParent={parentRef}
         nodeRef={nodeRef}
       >
         <Image
@@ -43,8 +101,8 @@ export default function Desk(props) {
           alt='document'
           width={doc.width}
           height={doc.height}
-          style={{width: '150px', height: 'auto'}}
-          // style={{ left: defaultPos.x, top: defaultPos.y }}
+          style={{ ...style, height: 'auto' }}
+          onWheel={(e) => console.log(doc.path, e.nativeEvent.wheelDelta)}
         />
       </Draggable>
     )
