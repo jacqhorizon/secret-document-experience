@@ -173,10 +173,15 @@
   /* margin-bottom: 10px; */
 }
 .file_column {
+  position: relative;
   height: 100%;
   padding: 10px 10px;
   ul {
     margin: 10px 0px;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+
   }
   ul:hover {
     cursor: pointer;
@@ -191,15 +196,20 @@
   flex-direction: column;
 }
 .file_list_title {
-  /* position: absolute; */
-  margin-top: -20px;
-  margin-bottom: 10px;
+  position: absolute;
+  /* margin-top: 20px; */
+  /* margin-bottom: 10px; */
+  top: 0px;
+  left: 25px;
   background-color: var(--darkest-green);
 }
 .file_list {
   /* background-color: aqua; */
   border: 1px solid var(--light-green);
   padding: 10px 10px;
+
+
+
 }
 .left_text {
   flex-grow: 1;
@@ -216,6 +226,7 @@
   flex-grow: 1;
   display: flex;
   justify-content: center;
+  align-items: center;
   border: 1px solid var(--light-green);
 }
 
@@ -226,7 +237,7 @@
 
 .file_content {
   width: auto;
-  height: 35vw;
+  height: 55%;
 }
 /* Desk */
 .desk_surface {

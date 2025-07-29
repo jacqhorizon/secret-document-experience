@@ -34,14 +34,45 @@ export default function Computer(props) {
 
   const [currFile, setCurrFile] = useState(0)
 
-  const File1 = () => {
+  const FILES = [
+    {
+      path: '/Computer/MonitorScreenFile1_Brazil.png',
+      name: 'MonitorScreenFile1_Brazil.png'
+    },
+    {
+      path: '/Computer/MonitorScreenFile1_Japan.png',
+      name: 'MonitorScreenFile1_Japan.png'
+    },
+    {
+      path: '/Computer/MonitorScreenFileEidolonReceving1.png',
+      name: 'MonitorScreenFileEidolonReceving1.png'
+    },
+    {
+      path: '/Computer/MonitorScreenFileEidolonReceving2.png',
+      name: 'MonitorScreenFileEidolonReceving2.png'
+    },
+    {
+      path: '/Computer/MonitorScreenMemoridum.png',
+      name: 'MonitorScreenMemoridum.png'
+    },
+    {
+      path: '/Computer/MonitorScreenSurgeryReport1.png',
+      name: 'MonitorScreenSurgeryReport1.png'
+    },
+    {
+      path: '/Computer/MonitorScreenSurgeryReport2.png',
+      name: 'MonitorScreenSurgeryReport2.png'
+    }
+  ]
+
+  const FileView = () => {
     return (
       <Image
         className={styles.file_content}
-        src='/Table/SeveredWanted.png'
+        src={FILES[currFile].path}
         alt='Computer with computer and desk'
         width={320}
-        height={400}
+        height={320}
         priority={true}
       />
     )
@@ -54,10 +85,6 @@ export default function Computer(props) {
   const handleFileSelect = (index) => {
     setCurrFile(index)
   }
-  const FILES = [
-    { name: '#Eidolon Acquisition...', content: <File1 /> },
-    { name: 'file_2.txt', content: <File2 /> }
-  ]
 
   return (
     <div className={styles.bg_grid} style={{ display: visible }}>
@@ -93,8 +120,9 @@ export default function Computer(props) {
           <div className={styles.database_head}>DATABASE</div>
           <div className={styles.file_viewer_view}>
             <div className={`${styles.file_column} ${styles.left}`}>
+              
               <div className={styles.file_list}>
-                <div className={styles.file_list_title}>FILE LIST</div>
+                <div className={styles.file_list_title}> FILE LIST </div>
                 {FILES.map((file, i) => {
                   return (
                     <ul
@@ -114,7 +142,7 @@ export default function Computer(props) {
               </div>
             </div>
             <div className={`${styles.file_column} ${styles.right}`}>
-              {FILES[currFile].content}
+              <FileView />
             </div>
           </div>
         </div>
