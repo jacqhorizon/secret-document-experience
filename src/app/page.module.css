@@ -233,7 +233,7 @@
   grid-column: 10 / 28;
   grid-row: 3 / 16;
   /* background-color: white; */
-  z-index: 100;
+  z-index: 10;
   position: relative;
 }
 .document {
@@ -242,7 +242,18 @@
 .document:hover {
   cursor: pointer;
 }
-
+.fullscreen_screen {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0,0,0,.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
 .ctas {
   display: flex;
   gap: 16px;

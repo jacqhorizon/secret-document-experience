@@ -1,7 +1,9 @@
 import Image from 'next/image'
 import styles from '../page.module.css'
 import Draggable from 'react-draggable' // Both at the same time
-import React, { useEffect } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
+import { motion } from 'motion/react'
+import TableDoc from '../components/TableDoc'
 
 export default function Desk(props) {
   const handleView = props.handleView
@@ -82,40 +84,98 @@ export default function Desk(props) {
     }
   ]
 
-const handleWheel = (delta) => {
-  if (delta > 0) {
-    
-  }
-}
+  const handleWheel = (e) => {
+    // Detect scroll direction
+    // Negative wheelDelta means scrolling down/out, positive means scrolling up/in
+    const scrollingIn = e.nativeEvent.wheelDelta > 0
+    const scrollingOut = e.nativeEvent.wheelDelta < 0
 
-  function TableDoc({ doc }) {
-    const nodeRef = React.useRef(null)
-    console.log(doc.posX)
-    let style = {
-      width: (12 * doc.widthMult).toString() + 'vw',
-      top: `calc(40% + ${doc.posY}%)`,
-      left: `calc(40% + ${doc.posX}%)`,
-      rotate: doc.rotate.toString()+'deg'
+    if (scrollingIn && !isZoomed) {
+      setIsZoomed(true)
+    } else if (scrollingOut && isZoomed) {
+      setIsZoomed(false)
     }
-    return (
-      <Draggable
-        bounds='parent'
-        nodeRef={nodeRef}
-      >
-        <Image
-          draggable={false}
-          className={styles.document}
-          ref={nodeRef}
-          src={doc.path ? doc.path : '/document-42.png'}
-          alt='document'
-          width={doc.width}
-          height={doc.height}
-          style={{ ...style, height: 'auto'}}
-          onWheel={(e) => console.log(doc.path, e.nativeEvent.wheelDelta)}
-        />
-      </Draggable>
-    )
   }
+
+  const [isZoomed, setIsZoomed] = useState(false)
+
+  const openDoc = useCallback((index) => {
+    setCurrFullScreen(index)
+  }, [])
+
+  const closeDoc = (e) => {
+    if (e.target.tagName !== 'IMG') {
+      setCurrFullScreen(null)
+    }
+  }
+  
+  const [currFullScreen, setCurrFullScreen] = useState(null) //index
+    let fullScreenStyle = {
+    width: 'auto',
+    height: '90vh'
+    // top: '0px',
+    // left: '0px',
+    // rotate: '0deg'
+  }
+  const FullScreenDoc = () => {
+    if (currFullScreen) {
+      let doc = TABLEDOCS[currFullScreen]
+      return (
+        <div className={styles.fullscreen_screen} onClick={(e) => closeDoc(e)}>
+          <Image
+            className={styles.document}
+            // ref={nodeRef}
+            src={doc.path ? doc.path : '/document-42.png'}
+            alt='document'
+            width={doc.width}
+            height={doc.height}
+            style={{ ...fullScreenStyle}}
+            // onWheel={handleWheel}
+          />
+        </div>
+      )
+    } else {
+      return <></>
+    }
+  }
+  // Use Motion
+  const constraintsRef = useRef(null)
+  // function TableDoc({ doc }) {
+  //   const nodeRef = React.useRef(null)
+  //   console.log(doc.posX)
+  //   let style = {
+  //     width: (12 * doc.widthMult).toString() + 'vw',
+  //     top: `calc(40% + ${doc.posY}%)`,
+  //     left: `calc(40% + ${doc.posX}%)`,
+  //     rotate: doc.rotate.toString() + 'deg'
+  //   }
+  //   return (
+  //     <motion.div
+  //     ref={nodeRef}
+  //       drag
+  //       dragConstraints={constraintsRef}
+  //       dragTransition={{
+  //         // bounceStiffness: 10,
+  //         // bounceDamping: 100
+  //         // max: 10
+  //         power: 0.01,
+  //         timeConstant: 500
+  //       }}
+  //     >
+  //       <Image
+  //         draggable={false}
+  //         className={styles.document}
+  //         ref={nodeRef}
+  //         src={doc.path ? doc.path : '/document-42.png'}
+  //         alt='document'
+  //         width={doc.width}
+  //         height={doc.height}
+  //         style={{ ...style, height: 'auto' }}
+  //         onWheel={(e) => console.log(doc.path, e.nativeEvent.wheelDelta)}
+  //       />
+  //     </motion.div>
+  //   )
+  // }
 
   // const parentRef = React.useRef(null)
   return (
@@ -123,11 +183,12 @@ const handleWheel = (delta) => {
       <div className={styles.back_button} onClick={() => handleView(0)}>
         BACK
       </div>
-      <div className={styles.desk_surface}>
-        {TABLEDOCS.map((doc) => {
+      <FullScreenDoc />
+      <div className={styles.desk_surface} ref={constraintsRef}>
+        {TABLEDOCS.map((doc, index) => {
           return (
             <React.Fragment key={doc.path}>
-              <TableDoc doc={doc} />
+              <TableDoc doc={doc} index={index} openDoc={openDoc} />
             </React.Fragment>
           )
         })}
