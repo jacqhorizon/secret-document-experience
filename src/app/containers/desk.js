@@ -84,7 +84,7 @@ export default function Desk(props) {
 
 const handleWheel = (delta) => {
   if (delta > 0) {
-
+    
   }
 }
 
