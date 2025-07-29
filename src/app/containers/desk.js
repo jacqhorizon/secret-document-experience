@@ -14,7 +14,8 @@ export default function Desk(props) {
       height: 1360,
       posX: -20,
       posY: 5,
-      widthMult: 1
+      widthMult: 1,
+      rotate: 2.3
     },
     {
       path: '/Table/MegaRailAttack.png',
@@ -22,7 +23,8 @@ export default function Desk(props) {
       height: 1360,
       posX: 5,
       posY: -30,
-      widthMult: 1
+      widthMult: 1,
+      rotate: -4.1
     },
     {
       path: '/Table/MicroFilmDoc_01.png',
@@ -30,7 +32,8 @@ export default function Desk(props) {
       height: 4096,
       posX: -10,
       posY: -12,
-      widthMult: 1
+      widthMult: 1,
+      rotate: 1.7
     },
     {
       path: '/Table/MicroFilmDoc_02.png',
@@ -38,7 +41,8 @@ export default function Desk(props) {
       height: 4096,
       posX: 15,
       posY: -10,
-      widthMult: 1
+      widthMult: 1,
+      rotate: -3.6
     },
     {
       path: '/Table/MinistryReport.png',
@@ -46,7 +50,8 @@ export default function Desk(props) {
       height: 1360,
       posX: 3,
       posY: -8,
-      widthMult: 1
+      widthMult: 1,
+      rotate: 0.5
     },
     {
       path: '/Table/ResearcherProfile.png',
@@ -54,7 +59,8 @@ export default function Desk(props) {
       height: 1360,
       posX: 5,
       posY: 25,
-      widthMult: 0.9
+      widthMult: 0.9,
+      rotate: 4.8
     },
     {
       path: '/Table/SeveredWanted.png',
@@ -62,7 +68,8 @@ export default function Desk(props) {
       height: 1360,
       posX: 20,
       posY: 20,
-      widthMult: 1
+      widthMult: 1,
+      rotate: -2.2
     },
     {
       path: '/Table/USDNewspaper.png',
@@ -70,7 +77,8 @@ export default function Desk(props) {
       height: 1360,
       posX: 1,
       posY: 1,
-      widthMult: 1.5
+      widthMult: 1.5,
+      rotate: 3.1
     }
   ]
 
@@ -86,7 +94,8 @@ const handleWheel = (delta) => {
     let style = {
       width: (12 * doc.widthMult).toString() + 'vw',
       top: `calc(40% + ${doc.posY}%)`,
-      left: `calc(40% + ${doc.posX}%)`
+      left: `calc(40% + ${doc.posX}%)`,
+      rotate: doc.rotate.toString()+'deg'
     }
     return (
       <Draggable
@@ -101,7 +110,7 @@ const handleWheel = (delta) => {
           alt='document'
           width={doc.width}
           height={doc.height}
-          style={{ ...style, height: 'auto' }}
+          style={{ ...style, height: 'auto'}}
           onWheel={(e) => console.log(doc.path, e.nativeEvent.wheelDelta)}
         />
       </Draggable>
