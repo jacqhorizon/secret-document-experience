@@ -2,11 +2,15 @@ import Image from 'next/image'
 import styles from '../page.module.css'
 import Form from 'next/form'
 import { useState } from 'react'
+import DatabaseStarter from '../components/databaseStarter'
+import DbFileList from '../components/dbFileList'
 
 export default function Computer(props) {
   const handleView = props.handleView
   const visible = props.visible
+  const [startDatabase, setStartDatabase] = useState(false)
   const [accessGranted, setAccessGranted] = useState(false)
+  const [currView, setCurrView] = useState(0)
   const [showError, setShowError] = useState(false)
   const [password, setPassword] = useState('')
 
@@ -20,8 +24,8 @@ export default function Computer(props) {
     e.stopPropagation()
     // const password = formData.get('Password')
     const password = e.target[0].value
-    if (password == 'correct') {
-      setAccessGranted(true)
+    if (password == 'yes') {
+      setCurrView(1)
     } else {
       setShowError(true)
     }
@@ -37,31 +41,31 @@ export default function Computer(props) {
   const FILES = [
     {
       path: '/Computer/MonitorScreenFile1_Brazil.png',
-      name: 'MonitorScreenFile1_Brazil.png'
+      name: 'Operation: Yuzna'
     },
     {
       path: '/Computer/MonitorScreenFile1_Japan.png',
-      name: 'MonitorScreenFile1_Japan.png'
+      name: 'Operation: Blue Sable'
     },
     {
       path: '/Computer/MonitorScreenFileEidolonReceving1.png',
-      name: 'MonitorScreenFileEidolonReceving1.png'
+      name: 'Eidolon Receving 42J-M1'
     },
     {
       path: '/Computer/MonitorScreenFileEidolonReceving2.png',
-      name: 'MonitorScreenFileEidolonReceving2.png'
+      name: 'Eidolon Recieving 81J-M1'
     },
     {
       path: '/Computer/MonitorScreenMemoridum.png',
-      name: 'MonitorScreenMemoridum.png'
+      name: 'Memorandum X7JJ'
     },
     {
       path: '/Computer/MonitorScreenSurgeryReport1.png',
-      name: 'MonitorScreenSurgeryReport1.png'
+      name: 'Surgery Report M-521'
     },
     {
       path: '/Computer/MonitorScreenSurgeryReport2.png',
-      name: 'MonitorScreenSurgeryReport2.png'
+      name: 'Surgery Report 0-717'
     }
   ]
 
@@ -71,8 +75,8 @@ export default function Computer(props) {
         className={styles.file_content}
         src={FILES[currFile].path}
         alt='Computer with computer and desk'
-        width={320}
-        height={320}
+        width={3200}
+        height={3200}
         priority={true}
       />
     )
@@ -84,6 +88,7 @@ export default function Computer(props) {
 
   const handleFileSelect = (index) => {
     setCurrFile(index)
+    setCurrView(2)
   }
 
   return (
@@ -92,7 +97,7 @@ export default function Computer(props) {
         BACK
       </div>
       <div className={styles.computer_screen}>
-        <div style={{ display: accessGranted ? 'none' : 'block' }}>
+        <div style={{ display: currView == 0 ? 'block' : 'none' }}>
           <Form action='' onSubmit={(e) => handleSubmit(e)}>
             <input
               className={`${styles.password} ${styles.password_input}`}
@@ -113,38 +118,21 @@ export default function Computer(props) {
             {showError ? 'Wrong password.' : ' '}
           </div>
         </div>
+        <DbFileList
+          currView={currView}
+          FILES={FILES}
+          currFile={currFile}
+          handleFileSelect={handleFileSelect}
+        />
+        <DatabaseStarter currView={currView} />
+
         <div
           className={styles.file_viewer}
-          style={{ display: accessGranted ? 'block' : 'none' }}
+          style={{ display: currView == 2 ? 'block' : 'none' }}
         >
-          <div className={styles.database_head}>DATABASE</div>
-          <div className={styles.file_viewer_view}>
-            <div className={`${styles.file_column} ${styles.left}`}>
-              
-              <div className={styles.file_list}>
-                <div className={styles.file_list_title}> FILE LIST </div>
-                {FILES.map((file, i) => {
-                  return (
-                    <ul
-                      key={file.name}
-                      onClick={() => handleFileSelect(i)}
-                      className={currFile == i ? styles.selected_file : ''}
-                    >
-                      {file.name}
-                    </ul>
-                  )
-                })}
-              </div>
-              <div className={styles.left_text}>
-                <p>CLEARANCE CODE...Red Zero</p>
-                <p>DESIGNATION...TOP SECRET</p>
-                <p>DESTRUCTION STATUS...Pending</p>
-              </div>
-            </div>
-            <div className={`${styles.file_column} ${styles.right}`}>
+          <div className={styles.exit_file}
+          onClick={() => setCurrView(1)}></div>
               <FileView />
-            </div>
-          </div>
         </div>
       </div>
       <Image
