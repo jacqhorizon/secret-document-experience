@@ -27,6 +27,8 @@ export default function Home() {
       <Room handleView={handleView} visible={visible(0)} />
       <Computer handleView={handleView} visible={visible(1)} />
       <Desk handleView={handleView} visible={visible(2)} />
+
     </div>
+    
   )
 }

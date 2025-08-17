@@ -26,9 +26,11 @@ const TableDoc = React.memo(function TableDoc({ doc, index, openDoc}) {
           height={doc.height}
           style={{ ...style, height: 'auto' }}
           onDoubleClick={() => openDoc(index)}
+          priority
           // onWheel={handleWheel}
         />
       </Draggable>
+      
     )
   })
 

@@ -1,9 +1,10 @@
 import Image from 'next/image'
 import styles from '../page.module.css'
-import Form from 'next/form'
-import { useState } from 'react'
+
+import { useState, useEffect } from 'react'
 import DatabaseStarter from '../components/databaseStarter'
 import DbFileList from '../components/dbFileList'
+import PasswordInput from '../components/passwordInput'
 
 export default function Computer(props) {
   const handleView = props.handleView
@@ -11,25 +12,6 @@ export default function Computer(props) {
   const [startDatabase, setStartDatabase] = useState(false)
   const [accessGranted, setAccessGranted] = useState(false)
   const [currView, setCurrView] = useState(0)
-  const [showError, setShowError] = useState(false)
-  const [password, setPassword] = useState('')
-
-  const handlePassword = (e) => {
-    setPassword(e.target.value)
-    setShowError(false)
-  }
-  const handleSubmit = (e) => {
-    console.log(e)
-    e.preventDefault()
-    e.stopPropagation()
-    // const password = formData.get('Password')
-    const password = e.target[0].value
-    if (password == 'yes') {
-      setCurrView(1)
-    } else {
-      setShowError(true)
-    }
-  }
 
   const handleBack = () => {
     handleView(0)
@@ -86,6 +68,36 @@ export default function Computer(props) {
     return <>This is file two</>
   }
 
+  useEffect(() => {
+    const handleEscapeBack = (e) => {
+      if (e.key === 'Escape') {
+        setCurrView((prev) => (prev % 2) * 2)
+      }
+    }
+    window.addEventListener('keydown', handleEscapeBack)
+
+    return () => window.removeEventListener('keydown', handleEscapeBack)
+  }, [])
+
+  useEffect(() => {
+    if (currView != 2) return
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowUp') {
+        setCurrFile((prev) => Math.max(prev - 1, 0))
+      }
+      if (e.key === 'ArrowDown') {
+        setCurrFile((prev) => Math.min(prev + 1, FILES.length - 1))
+      }
+      if (e.key === 'Enter') {
+        setCurrView(3)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [currView])
+
   const handleFileSelect = (index) => {
     setCurrFile(index)
     setCurrView(2)
@@ -97,42 +109,30 @@ export default function Computer(props) {
         BACK
       </div>
       <div className={styles.computer_screen}>
-        <div style={{ display: currView == 0 ? 'block' : 'none' }}>
-          <Form action='' onSubmit={(e) => handleSubmit(e)}>
-            <input
-              className={`${styles.password} ${styles.password_input}`}
-              name='Password'
-              type='text'
-              spellCheck='false'
-              value={password}
-              onChange={(e) => handlePassword(e)}
-            />
-            <button
-              className={`${styles.password} ${styles.password_submit}`}
-              type='submit'
-            >
-              &gt;&gt;
-            </button>
-          </Form>
-          <div className={styles.error_message}>
-            {showError ? 'Wrong password.' : ' '}
+        {currView == 0 ? (
+          <div style={{ display: currView == 0 ? 'block' : 'none' }}>
+            <PasswordInput setCurrView={setCurrView} />
           </div>
-        </div>
-        <DbFileList
-          currView={currView}
-          FILES={FILES}
-          currFile={currFile}
-          handleFileSelect={handleFileSelect}
-        />
-        <DatabaseStarter currView={currView} />
-
+        ) : (
+          <>
+            <DbFileList
+              currView={currView}
+              FILES={FILES}
+              currFile={currFile}
+              handleFileSelect={handleFileSelect}
+            />
+            <DatabaseStarter currView={currView} setCurrView={setCurrView} />
+          </>
+        )}
         <div
           className={styles.file_viewer}
-          style={{ display: currView == 2 ? 'block' : 'none' }}
+          style={{ display: currView == 3 ? 'flex' : 'none' }}
         >
-          <div className={styles.exit_file}
-          onClick={() => setCurrView(1)}></div>
-              <FileView />
+          {/* <div
+            className={styles.exit_file}
+            onClick={() => setCurrView(1)}
+          ></div> */}
+          <FileView />
         </div>
       </div>
       <Image
