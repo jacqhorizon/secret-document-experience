@@ -1,3 +1,4 @@
+
 .page {
   --gray-rgb: 0, 0, 0;
   --gray-alpha-200: rgba(var(--gray-rgb), 0.08);
@@ -12,14 +13,15 @@
   display: flex;
   /* grid-template-rows: 20px 1fr 20px; */
   align-items: center;
-  justify-items: center;
+  justify-content: center;
   min-height: 100svh;
   width: 100vw;
   /* padding: 80px; */
   /* gap: 64px; */
   background-color: black;
-  font-family: var(--font-roboto);
+  font-family: var(--font-handjet);
   font-size: 1rem;
+
 }
 
 /* Make all text responsive */
@@ -75,23 +77,37 @@
   font-weight: 600;
 }
 
+/* wrapper keeps the aspect ratio of your image */
+.wrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background-color: pink; */
+}
+
 .bg_grid {
   display: grid;
   --grid-cols: 32;
   --grid-rows: 18;
   grid-template-columns: repeat(var(--grid-cols), minmax(10px, 1fr));
   grid-template-rows: repeat(var(--grid-rows), minmax(10px, 1fr));
-  width: 100%;
-  height: 100%;
-  background-color: red;
+  max-height: 100%;
+  max-width: auto;
+  aspect-ratio: 16/9;
+  position: relative;
+  background-color:blue;
 }
 /* Other */
 .bg {
   grid-column: 1 / span var(--grid-cols);
   grid-row: 1 / span var(--grid-rows);
-  width: 100%;
-  height: auto;
+  height: 100%;
+  width: auto;
+  object-fit: contain;
   pointer-events: none;
+  background-color: yellow;
 }
 .back_button {
   grid-column: 1 / span 1;

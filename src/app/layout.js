@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono, Pixelify_Sans, Roboto } from "next/font/google";
+import { Geist, Geist_Mono, Pixelify_Sans, Roboto, Handjet } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -21,6 +21,11 @@ const roboto = Roboto({
   subsets: ["latin"]
 })
 
+const handJet = Handjet({
+  variable: "--font-handjet",
+  subsets: ["latin"]
+})
+
 export const metadata = {
   title: "Secret Document Experience",
   description: "Secret Document Experience",
@@ -29,7 +34,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${roboto.variable}` }>
+      <body className={`${handJet.variable}` }>
         <div>
           {children}
         </div>
