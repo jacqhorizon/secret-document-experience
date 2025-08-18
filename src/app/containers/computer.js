@@ -56,8 +56,8 @@ export default function Computer(props) {
         className={styles.file_content}
         src={FILES[currFile].path}
         alt='Computer with computer and desk'
-        width={3200}
-        height={3200}
+        width={1024}
+        height={768}
         priority={true}
       />
     )

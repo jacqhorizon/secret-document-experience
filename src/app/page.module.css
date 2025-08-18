@@ -1,4 +1,3 @@
-
 .page {
   --gray-rgb: 0, 0, 0;
   --gray-alpha-200: rgba(var(--gray-rgb), 0.08);
@@ -21,7 +20,6 @@
   background-color: black;
   font-family: var(--font-handjet);
   font-size: 1rem;
-
 }
 
 /* Make all text responsive */
@@ -97,7 +95,7 @@
   max-width: auto;
   aspect-ratio: 16/9;
   position: relative;
-  background-color:blue;
+  background-color: blue;
 }
 /* Other */
 .bg {
@@ -193,6 +191,9 @@
   flex-direction: column;
   justify-content: top;
 }
+.db_break {
+  height: 4vh;
+}
 .file_viewer {
   width: 100%;
   height: 100%;
@@ -275,7 +276,7 @@
   /* background-color: white; */
   z-index: 10;
   position: relative;
-    width: 100%;
+  width: 100%;
   height: 100%;
 }
 .document {

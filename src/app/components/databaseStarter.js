@@ -71,7 +71,7 @@ const DatabaseStarter = ({ currView, setCurrView,setAccessGranted }) => {
       style={{ display: currView == 1 || currView == 2 ? 'flex' : 'none' }}
     >
       {lines.map((line, idx) =>
-        line === '' ? <br key={idx} /> : <p key={idx}>{line}</p>
+        line === '' ? <div className={styles.db_break} key={idx} /> : <p key={idx}>{line}</p>
       )}
       {/* currently typing line */}
       {currentLine && (
