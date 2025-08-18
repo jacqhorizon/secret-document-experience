@@ -17,7 +17,7 @@ const PasswordInput = ({setCurrView}) => {
         e.stopPropagation()
         // const password = formData.get('Password')
         const password = e.target[0].value
-        if (password == 'yes') {
+        if (password == 'Alpha Zero') {
           setCurrView(1)
         } else {
           setShowError(true)

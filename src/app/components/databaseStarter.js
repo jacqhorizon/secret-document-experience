@@ -1,8 +1,8 @@
 import styles from '../page.module.css'
 import { useState, useEffect } from 'react'
-const DatabaseStarter = ({ currView, setCurrView }) => {
+const DatabaseStarter = ({ currView, setCurrView,setAccessGranted }) => {
   const START_TEXT = [
-    { text: 'Starting MS-DOS. . . . .', speed: 1 },
+    { text: 'Starting SD-DOS. . . . .', speed: 1 },
     { text: '', speed: 0 }, // <br />
     { text: 'Current date is TUE  4-07-1994', speed: 1 },
     { text: 'Command v.1.17', speed: 1 },
@@ -30,19 +30,20 @@ const DatabaseStarter = ({ currView, setCurrView }) => {
 
   useEffect(() => {
     const delay = setTimeout(() => setStarted(true), 100) // 1s delay
-    console.log('delay')
+
     return () => clearTimeout(delay)
   }, [])
 
   useEffect(() => {
     if (!started) return // wait until pause is done
-    console.log(lineIndex, START_TEXT.length)
+
     if (lineIndex >= START_TEXT.length) {
+      setAccessGranted(true)
       setCurrView(2)
     } // finished all lines
     else {
       const line = START_TEXT[lineIndex].text
-      const speed = 10 * (START_TEXT[lineIndex].speed || 1) // ms per char
+      const speed = 5 * (START_TEXT[lineIndex].speed || 1) // ms per char
 
       if (charIndex < line.length) {
         // keep typing characters
@@ -58,13 +59,11 @@ const DatabaseStarter = ({ currView, setCurrView }) => {
           setCurrentLine('')
           setCharIndex(0)
           setLineIndex((prev) => prev + 1)
-        }, 300) // pause before next line
+        }, 150) // pause before next line
         return () => clearTimeout(timeout)
       }
     }
   }, [charIndex, lineIndex, started])
-
-  const isTyping = lineIndex < START_TEXT.length
 
   return (
     <div

@@ -9,7 +9,6 @@ import PasswordInput from '../components/passwordInput'
 export default function Computer(props) {
   const handleView = props.handleView
   const visible = props.visible
-  const [startDatabase, setStartDatabase] = useState(false)
   const [accessGranted, setAccessGranted] = useState(false)
   const [currView, setCurrView] = useState(0)
 
@@ -67,11 +66,22 @@ export default function Computer(props) {
   const File2 = () => {
     return <>This is file two</>
   }
+useEffect(() => {
+  if (currView == 0) {
+    setAccessGranted(false)
+  }
+},[currView])
 
   useEffect(() => {
     const handleEscapeBack = (e) => {
       if (e.key === 'Escape') {
-        setCurrView((prev) => (prev % 2) * 2)
+        setCurrView((prev) => {
+          if (prev == 3) {
+            return 2
+          } else {
+            return 0
+          }
+        })
       }
     }
     window.addEventListener('keydown', handleEscapeBack)
@@ -80,27 +90,39 @@ export default function Computer(props) {
   }, [])
 
   useEffect(() => {
-    if (currView != 2) return
-    const handleKeyDown = (e) => {
+  const handleKeyDown = (e) => {
+    if (currView === 1 && accessGranted) {
+      if (e.key === 'Enter') {
+        setCurrView(2)
+      }
+    } else if (currView === 2) {
       if (e.key === 'ArrowUp') {
-        setCurrFile((prev) => Math.max(prev - 1, 0))
+        setCurrFile((prev) => Math.max(prev - 1, 0));
       }
       if (e.key === 'ArrowDown') {
-        setCurrFile((prev) => Math.min(prev + 1, FILES.length - 1))
+        setCurrFile((prev) => Math.min(prev + 1, FILES.length - 1));
       }
       if (e.key === 'Enter') {
-        setCurrView(3)
+        setCurrView(3);
       }
     }
+    // else: ignore all keys when not in view 1 or 2
+  };
 
     window.addEventListener('keydown', handleKeyDown)
 
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [currView])
 
-  const handleFileSelect = (index) => {
+  const handleModalClose = () => {
+    setCurrView(1)
+  }
+  const handleFileClick = (index) => {
     setCurrFile(index)
-    setCurrView(2)
+  }
+  const handleFileDouble = (index) => {
+    setCurrFile(index)
+    setCurrView(3)
   }
 
   return (
@@ -119,19 +141,22 @@ export default function Computer(props) {
               currView={currView}
               FILES={FILES}
               currFile={currFile}
-              handleFileSelect={handleFileSelect}
+              handleModalClose={handleModalClose}
+              handleFileClick={handleFileClick}
+              handleFileDouble={handleFileDouble}
             />
-            <DatabaseStarter currView={currView} setCurrView={setCurrView} />
+            <DatabaseStarter currView={currView} setCurrView={setCurrView} 
+            setAccessGranted={setAccessGranted} />
           </>
         )}
         <div
           className={styles.file_viewer}
           style={{ display: currView == 3 ? 'flex' : 'none' }}
         >
-          {/* <div
+          <div
             className={styles.exit_file}
-            onClick={() => setCurrView(1)}
-          ></div> */}
+            onClick={() => setCurrView(2)}
+          ></div>
           <FileView />
         </div>
       </div>

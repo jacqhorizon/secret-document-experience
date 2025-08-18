@@ -1,6 +1,6 @@
 import styles from '../page.module.css'
 
-const DbFileList = ({ currView, FILES, currFile, handleFileSelect }) => {
+const DbFileList = ({ currView, FILES, currFile, handleModalClose, handleFileClick, handleFileDouble }) => {
   return (
     <div
       className={styles.file_modal}
@@ -8,14 +8,17 @@ const DbFileList = ({ currView, FILES, currFile, handleFileSelect }) => {
     >
       <div className={styles.file_list_head}>
         <p>D:/05T/Files/Data</p>
-        <p>X</p>
+        <p
+        onClick={() => handleModalClose()}
+        >X</p>
       </div>
       <div className={styles.file_list}>
         {FILES.map((file, i) => {
           return (
             <ul
               key={file.name}
-              // onClick={() => handleFileSelect(i)}
+              onClick={() => handleFileClick(i)}
+              onDoubleClick={() => handleFileDouble(i)}
               className={
                 currFile == i ? styles.selected_file : styles.list_item
               }
