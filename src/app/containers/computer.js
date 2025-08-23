@@ -200,10 +200,10 @@ export default function Computer(props) {
         </div>
               <video
         // class='bg_video'
-        autoplay
-        muted
-        loop
-        playsinline
+        // autoplay
+        // muted
+        // loop
+        // playsinline
         style={{ display: currView == 4 ? 'flex' : 'none' }}
       >
         <source src='public/ExperienceEnd.mp4' type='video/mp4' />
