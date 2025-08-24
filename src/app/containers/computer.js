@@ -11,6 +11,7 @@ export default function Computer(props) {
   const visible = props.visible
   const [accessGranted, setAccessGranted] = useState(false)
   const [currView, setCurrView] = useState(0)
+  const [ended, setEnded] = useState(false)
 
   const handleBack = () => {
     handleView(0)
@@ -192,24 +193,25 @@ export default function Computer(props) {
           ></div>
           <FileView />
         </div>
-        <div
-          className={styles.file_viewer}
-          style={{ display: currView == 4 ? 'flex' : 'none' }}
-        >
-          End
-        </div>
-              <video
-        // class='bg_video'
-        // autoplay
-        // muted
+      </div>
+      <video
+        className={styles.bg_video}
+        autoPlay
+        // controls
+        muted
         // loop
         // playsinline
         style={{ display: currView == 4 ? 'flex' : 'none' }}
+        onEnded={() => setCurrView(5)} // when video finishes
       >
-        <source src='public/ExperienceEnd.mp4' type='video/mp4' />
+        <source src='/ExperienceEnd.mp4' type='video/mp4' />
       </video>
+      <div
+        className={styles.bg}
+        style={{ display: currView == 5 ? 'flex' : 'none' }}
+      >
+        Discord link
       </div>
-
       <Image
         className={styles.bg}
         src='/ComputerScreen.png'
@@ -217,6 +219,7 @@ export default function Computer(props) {
         width={7396}
         height={4160}
         priority={true}
+        style={{ display: currView == 4 || currView == 5 ? 'none' : 'block' }}
       />
     </div>
   )
