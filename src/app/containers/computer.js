@@ -15,7 +15,6 @@ export default function Computer(props) {
 
   const handleBack = () => {
     handleView(0)
-    setShowError(false)
   }
 
   const [currFile, setCurrFile] = useState(0)
@@ -210,7 +209,9 @@ export default function Computer(props) {
         className={styles.bg}
         style={{ display: currView == 5 ? 'flex' : 'none' }}
       >
-        Discord link
+        <div className={styles.end_screen}>
+          Discord Link
+        </div>
       </div>
       <Image
         className={styles.bg}

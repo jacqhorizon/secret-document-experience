@@ -31,7 +31,8 @@
 .file_list_end,
 .selected_file,
 .list_item,
-.back_button {
+.back_button,
+.end_screen {
   font-size: clamp(5px, min(2vh, 2vw), 3vh);
 }
 
@@ -95,7 +96,7 @@
   max-width: auto;
   aspect-ratio: 16/9;
   position: relative;
-  background-color: blue;
+  /* background-color: blue; */
 }
 /* Other */
 .bg {
@@ -105,7 +106,7 @@
   width: auto;
   object-fit: contain;
   pointer-events: none;
-  background-color: yellow;
+  /* background-color: yellow; */
 }
 .bg_video {
   grid-column: 1 / span var(--grid-cols);
@@ -276,6 +277,15 @@
 .list_item {
   text-transform: uppercase;
   /* padding: 0.5vh 0px; */
+}
+
+.end_screen {
+  color: var(--light-green);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Desk */

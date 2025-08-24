@@ -1,8 +1,8 @@
 import Image from 'next/image'
 import styles from '../page.module.css'
 import Draggable from 'react-draggable' // Both at the same time
-import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { motion } from 'motion/react'
+import React, { useState, useEffect, useRef, useCallback, use } from 'react'
+import { motion, AnimatePresence } from 'motion/react'
 import TableDoc from '../components/TableDoc'
 
 export default function Desk(props) {
@@ -84,19 +84,32 @@ export default function Desk(props) {
     }
   ]
 
-  const handleWheel = (e) => {
-    // Detect scroll direction
-    // Negative wheelDelta means scrolling down/out, positive means scrolling up/in
-    const scrollingIn = e.nativeEvent.wheelDelta > 0
-    const scrollingOut = e.nativeEvent.wheelDelta < 0
+  // const handleWheel = (e, index) => {
+  //   // Detect scroll direction
+  //   // Negative wheelDelta means scrolling down/out, positive means scrolling up/in
+  //   const scrollingIn = e.nativeEvent.wheelDelta > 0
+  //   const scrollingOut = e.nativeEvent.wheelDelta < 0
+  //   console.log(index, scrollingIn, scrollingOut)
+  //   if (scrollingIn && !isZoomed) {
+  //     // setIsZoomed(true)
+  //     setCurrFullScreen(index)
+  //   } else if (scrollingOut && isZoomed) {
+  //     setCurrFullScreen(null)
+  //     // setIsZoomed(false)
+  //   }
+  // }
 
-    if (scrollingIn && !isZoomed) {
-      setIsZoomed(true)
-    } else if (scrollingOut && isZoomed) {
-      setIsZoomed(false)
+  const handleWheelIn = useCallback((e, index) => {
+    if (e.nativeEvent.wheelDelta > 0) {
+      setCurrFullScreen(index)
+    }
+  }, [])
+
+  const handleWheelOut = (e) => {
+    if (e.nativeEvent.wheelDelta < 0) {
+      setCurrFullScreen(null)
     }
   }
-
   const [isZoomed, setIsZoomed] = useState(false)
 
   const openDoc = useCallback((index) => {
@@ -108,9 +121,14 @@ export default function Desk(props) {
       setCurrFullScreen(null)
     }
   }
-  
+
   const [currFullScreen, setCurrFullScreen] = useState(null) //index
-    let fullScreenStyle = {
+
+  useEffect(() => {
+    console.log(currFullScreen)
+  }, [currFullScreen])
+
+  let fullScreenStyle = {
     width: 'auto',
     height: '90vh'
     // top: '0px',
@@ -118,26 +136,42 @@ export default function Desk(props) {
     // rotate: '0deg'
   }
   const FullScreenDoc = () => {
-    if (currFullScreen) {
-      let doc = TABLEDOCS[currFullScreen]
-      return (
-        <div className={styles.fullscreen_screen} onClick={(e) => closeDoc(e)}>
-          <Image
-            className={styles.document}
-            // ref={nodeRef}
-            src={doc.path ? doc.path : '/document-42.png'}
-            alt='document'
-            width={doc.width}
-            height={doc.height}
-            style={{ ...fullScreenStyle}}
-            // onWheel={handleWheel}
-          />
-        </div>
-      )
-    } else {
-      return <></>
-    }
+    // if (currFullScreen) {
+    // let doc = TABLEDOCS[currFullScreen]
+    return (
+      <AnimatePresence>
+        {currFullScreen !== null && (
+          <motion.div
+            key={TABLEDOCS[currFullScreen].path}
+            className={styles.fullscreen_screen}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4, ease: 'easeInOut' }}
+            onClick={(e) => closeDoc(e)}
+          >
+            <motion.img
+              src={TABLEDOCS[currFullScreen].path}
+              alt='document'
+              width={TABLEDOCS[currFullScreen].width}
+              height={TABLEDOCS[currFullScreen].height}
+              className={styles.document}
+              initial={{ scale: 0.9 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.9 }}
+              transition={{ duration: 0.4 }}
+              onWheel={(e) => handleWheelOut(e)}
+              style={{ ...fullScreenStyle }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    )
+    // } else {
+    //   return <></>
+    // }
   }
+
   // Use Motion
   const constraintsRef = useRef(null)
   // function TableDoc({ doc }) {
@@ -188,27 +222,15 @@ export default function Desk(props) {
         {TABLEDOCS.map((doc, index) => {
           return (
             <React.Fragment key={doc.path}>
-              <TableDoc doc={doc} index={index} openDoc={openDoc} />
+              <TableDoc
+                doc={doc}
+                index={index}
+                openDoc={openDoc}
+                handleWheelIn={handleWheelIn}
+              />
             </React.Fragment>
           )
         })}
-        {/* <Test
-          defaultPos={{ x: 40, y: 0 }}
-          defaultPosition
-          file_path={'/Table/MicroFilmDoc_01.png'}
-        />
-        <Test
-          defaultPos={{ x: 0, y: 50 }}
-          file_path={'/Table/MicroFilmDoc_02.png'}
-        /> */}
-        {/* <Test
-          defaultPos={{ x: 20, y: 0 }}
-          file_path={'/Table/MicroFilmDoc_01.png'}
-        />
-        <Test
-          defaultPos={{ x: 0, y: 100 }}
-          file_path={'/Table/MicroFilmDoc_01.png'}
-        /> */}
       </div>
       <Image
         className={styles.bg}
