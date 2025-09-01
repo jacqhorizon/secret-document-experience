@@ -5,7 +5,7 @@ import Draggable from 'react-draggable' // Both at the same time
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { motion } from 'motion/react'
 
-const TableDoc = React.memo(function TableDoc({ doc, index, openDoc, handleWheelIn}) {
+const TableDoc = React.memo(function TableDoc({ doc, index, openDoc}) {
     const nodeRef = React.useRef(null)
     // console.log('rendering Table Doc '+index)
     let style = {
@@ -27,7 +27,6 @@ const TableDoc = React.memo(function TableDoc({ doc, index, openDoc, handleWheel
           style={{ ...style, height: 'auto' }}
           onDoubleClick={() => openDoc(index)}
           priority
-          onWheel={(e) => handleWheelIn(e, index)}
         />
       </Draggable>
       

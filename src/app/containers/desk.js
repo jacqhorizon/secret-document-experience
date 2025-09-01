@@ -84,34 +84,6 @@ export default function Desk(props) {
     }
   ]
 
-  // const handleWheel = (e, index) => {
-  //   // Detect scroll direction
-  //   // Negative wheelDelta means scrolling down/out, positive means scrolling up/in
-  //   const scrollingIn = e.nativeEvent.wheelDelta > 0
-  //   const scrollingOut = e.nativeEvent.wheelDelta < 0
-  //   console.log(index, scrollingIn, scrollingOut)
-  //   if (scrollingIn && !isZoomed) {
-  //     // setIsZoomed(true)
-  //     setCurrFullScreen(index)
-  //   } else if (scrollingOut && isZoomed) {
-  //     setCurrFullScreen(null)
-  //     // setIsZoomed(false)
-  //   }
-  // }
-
-  const handleWheelIn = useCallback((e, index) => {
-    if (e.nativeEvent.wheelDelta > 0) {
-      setCurrFullScreen(index)
-    }
-  }, [])
-
-  const handleWheelOut = (e) => {
-    if (e.nativeEvent.wheelDelta < 0) {
-      setCurrFullScreen(null)
-    }
-  }
-  const [isZoomed, setIsZoomed] = useState(false)
-
   const openDoc = useCallback((index) => {
     setCurrFullScreen(index)
   }, [])
@@ -136,8 +108,23 @@ export default function Desk(props) {
     // rotate: '0deg'
   }
   const FullScreenDoc = () => {
-    // if (currFullScreen) {
-    // let doc = TABLEDOCS[currFullScreen]
+    const [zoom, setZoom] = useState(1)
+ const [position, setPosition] = useState({ x: 0, y: 0 })
+    const handleWheelZoom = (e) => {
+      e.preventDefault()
+      setZoom((prev) => {
+        let next = prev + (e.deltaY < 0 ? 0.1 : -0.1)
+        if (next < 1) next = 1
+        if (next > 5) next = 5
+
+        // if zooming out back to 1, reset position
+        if (next <= 1) {
+          setPosition({ x: 0, y: 0 })
+        }
+        return next
+      })
+    }
+
     return (
       <AnimatePresence>
         {currFullScreen !== null && (
@@ -151,17 +138,32 @@ export default function Desk(props) {
             onClick={(e) => closeDoc(e)}
           >
             <motion.img
+              // key={resetKey}
               src={TABLEDOCS[currFullScreen].path}
               alt='document'
               width={TABLEDOCS[currFullScreen].width}
               height={TABLEDOCS[currFullScreen].height}
               className={styles.document}
               initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
+              animate={{ scale: zoom,x: position.x, y: position.y}}
+              drag={zoom > 1} // allow drag only when zoomed
+              onDragEnd={(e, info) => {
+                // store relative offset, not absolute point
+                setPosition({
+                  x: info.offset.x + position.x,
+                  y: info.offset.y + position.y
+                })
+              }}
+              // dragConstraints={constraints}
+              dragMomentum={false} // no fling after release
               exit={{ scale: 0.9 }}
               transition={{ duration: 0.4 }}
-              onWheel={(e) => handleWheelOut(e)}
-              style={{ ...fullScreenStyle }}
+              onWheel={handleWheelZoom}
+              style={{
+                ...fullScreenStyle,
+                cursor: zoom > 1 ? 'grab' : 'zoom-in'
+              }}
+              whileDrag={{ cursor: 'grabbing' }}
             />
           </motion.div>
         )}
@@ -222,12 +224,7 @@ export default function Desk(props) {
         {TABLEDOCS.map((doc, index) => {
           return (
             <React.Fragment key={doc.path}>
-              <TableDoc
-                doc={doc}
-                index={index}
-                openDoc={openDoc}
-                handleWheelIn={handleWheelIn}
-              />
+              <TableDoc doc={doc} index={index} openDoc={openDoc} />
             </React.Fragment>
           )
         })}

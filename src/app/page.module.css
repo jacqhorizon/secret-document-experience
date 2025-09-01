@@ -280,12 +280,24 @@
 }
 
 .end_screen {
+  grid-column: 1 / span var(--grid-cols);
+  grid-row: 1 / span var(--grid-rows);
+  height: 100%;
   color: var(--light-green);
-  width: 100vw;
-  height: 100vh;
   display: flex;
+  flex-direction: column;
+  /* background-color: yellow; */
+  width: 100vw;
   justify-content: center;
   align-items: center;
+  a {
+    z-index: 100;
+  }
+}
+
+.end_logo {
+  width: 50vw;
+  height: auto;
 }
 
 /* Desk */

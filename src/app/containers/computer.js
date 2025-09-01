@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import DatabaseStarter from '../components/databaseStarter'
 import DbFileList from '../components/dbFileList'
 import PasswordInput from '../components/passwordInput'
+import Link from 'next/link'
 
 export default function Computer(props) {
   const handleView = props.handleView
@@ -206,12 +207,19 @@ export default function Computer(props) {
         <source src='/ExperienceEnd.mp4' type='video/mp4' />
       </video>
       <div
-        className={styles.bg}
+        className={`${styles.end_screen}`}
         style={{ display: currView == 5 ? 'flex' : 'none' }}
       >
-        <div className={styles.end_screen}>
-          Discord Link
-        </div>
+        <Image
+          className={styles.end_logo}
+          src='/PatternZero_FullLogoMark.jpg'
+          alt='Logo'
+          width={1920}
+          height={1080}
+        />
+        <Link replace href='https://discord.gg/GWVX3CNz9T'>
+          Discord
+        </Link>
       </div>
       <Image
         className={styles.bg}
