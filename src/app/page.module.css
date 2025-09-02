@@ -296,8 +296,9 @@
 }
 
 .end_logo {
-  width: 50vw;
-  height: auto;
+  width: 90vw;
+  height: 90vh;
+  object-fit: contain;
 }
 
 /* Desk */
